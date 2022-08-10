@@ -4,7 +4,12 @@
  *************************************************************************************************************************************/
 #include "pcal6416.h" 
 #include "hal.h"
+
+#include "nrf_log.h"
  
+// IO Expander is on I2C0
+// Address: PCAL6416_ADDR = 0x21
+#define HAL_I2C   0
 
 /************************************************************************************** 
  * @brief	
@@ -76,22 +81,9 @@ int32_t pcal6416_write_gpio(uint8_t i2c, uint8_t device, uint8_t bit, uint8_t va
     int32_t result = pcal6416_get_out(i2c, device, &port); 
     if (result == 0)
     {
-        port &= ~(1UL << bit);  // Clears
-        port |= value << bit;   // Write 
+        port &= ~(1UL << bit);
+        port |= value << bit; 
         result = pcal6416_set_out(i2c, device, port); 
     }
     return result; 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

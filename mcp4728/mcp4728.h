@@ -13,6 +13,8 @@ extern "C" {
 #include <stdint.h>
 #include <string.h>
 
+#define MCP4728_DFLT_ADDR               0x60
+
 #define MCP4728_CMD_FAST                0x00
 #define MCP4728_CMD_INPUT               0x02
 #define MCP4728_CMD_ADDR                0x03

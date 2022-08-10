@@ -58,7 +58,7 @@ extern "C" {
 #define  INVERSE        2
 
 
-void    ssd1309_init (uint32_t spi, uint8_t dc, uint8_t cs, uint8_t rst); 
+void    ssd1309_init (uint32_t dc, uint32_t cs, uint32_t rst);
 void 	ssd1309_set_line (uint8_t line); 
 void 	ssd1309_set_page (uint8_t page); 
 void 	ssd1309_set_start_column (uint8_t d); 

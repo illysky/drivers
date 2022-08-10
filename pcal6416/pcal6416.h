@@ -13,8 +13,7 @@ extern "C" {
 #include <stdint.h>
 #include <string.h>
 
-
-
+#define PCAL6416_ADDR               0x21
 
 #define PCAL6416_REG_IN_P0          0x00
 #define PCAL6416_REG_IN_P1          0x01
@@ -39,6 +38,22 @@ extern "C" {
 #define PCAL6416_REG_INTSTAT0       0x4C
 #define PCAL6416_REG_INTSTAT1       0x4D
 #define PCAL6416_REG_OUT_CONF       0x4F
+
+
+// IO EXPANDER
+// TMC
+#define TMC_EN_2                0   // Port 0  Pin 0  
+#define TMC_EN_1                1   // Port 0  Pin 1
+#define TMC_EN_0                2   // Port 0  Pin 2
+
+// Enable
+#define SOL_EN                  4   // Port 0  Pin 4
+#define MOTOR_EN                5   // Port 0  Pin 5
+#define BOOST_EN                11   // Port 1  Pin 3
+
+// LEDs
+#define LED_R                   7   // Port 0  Pin 7
+#define LED_G                   10   // Port 1  Pin 2
 
 
 int32_t pcal6416_init (uint8_t i2c, uint8_t device); 

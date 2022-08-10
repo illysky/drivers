@@ -101,7 +101,7 @@ void tmc2130_conf_home (uint8_t driver)
     tmc2130_write (driver, TMC2130_REG_TCOOLTHRS,   0); 
     tmc2130_write (driver, TMC2130_REG_TCOOLTHRS,   0xFFFFF); 
     tmc2130_write (driver, TMC2130_REG_THIGH,   0); 
-    tmc2130_write (driver, TMC2130_REG_COOLCONF,   0x000000); 
+    tmc2130_write (driver, TMC2130_REG_COOLCONF,   0x050000); 
     tmc2130_write (driver, TMC2130_REG_GCONF,      0x00000087);
 
 }
@@ -112,13 +112,20 @@ void tmc2130_conf_home (uint8_t driver)
  **************************************************************************************/
 void tmc2130_conf_run (uint8_t driver) 
 {
-    tmc2130_write (driver, TMC2130_REG_CHOPCONF,   0x000100C3); 
-    tmc2130_write (driver, TMC2130_REG_IHOLD_IRUN, 0x00061F0A); 
-    tmc2130_write (driver, TMC2130_REG_TPOWERDOWN, 0x0000000A); 
-    tmc2130_write (driver, TMC2130_REG_TPWMTHRS,   0x000001F4); 
-    tmc2130_write (driver, TMC2130_REG_PWMCONF,    0x00040FC8); 
-    tmc2130_write (driver, TMC2130_REG_GCONF,      0x00000007); 
-    tmc2130_write (driver, TMC2130_REG_TCOOLTHRS,   0); 
+
+    
+
+    tmc2130_write (driver, TMC2130_REG_GCONF,      0x00000007); // PWM MODE and External Resistors and AIN 
+    tmc2130_write (driver, TMC2130_REG_PWMCONF,    0x000601FF); // PWM_GRAD=1, PWM_AMPL=255, 
+
+    tmc2130_write (driver, TMC2130_REG_CHOPCONF,   0x00018044); 
+
+    
+    
+    tmc2130_write (driver, TMC2130_REG_IHOLD_IRUN, 0x000F1F0A);  // IHOLD = 10, IRUN = 31, IHOLD_DELAY = 15
+    tmc2130_write (driver, TMC2130_REG_TPOWERDOWN, 0x000000FF);  // TPOWER DOWN DELAY TIME
+    tmc2130_write (driver, TMC2130_REG_TPWMTHRS,   0x000000FF); 
+
 }
 
 

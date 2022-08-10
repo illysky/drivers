@@ -7,23 +7,25 @@
 
 #include "ssd1309.h"
 #include "hal.h"
+#include "custom_board.h"
 
-static uint8_t ssd1309_pin_dc = 0xFF; 
-static uint8_t ssd1309_pin_cs = 0xFF; 
-static uint8_t ssd1309_pin_rst = 0xFF; 
-static uint8_t ssd1309_spi = 0xFF; 
+// OLED is on SPI1
+#define HAL_SPI		1
+
+static uint32_t ssd1309_pin_dc = 0xFF; 
+static uint32_t ssd1309_pin_cs = 0xFF; 
+static uint32_t ssd1309_pin_rst = 0xFF; 
 /************************************************************************************** 
  * @brief	
  * 	
  **************************************************************************************/
-void ssd1309_init (uint32_t spi, uint8_t dc, uint8_t cs, uint8_t rst) 
+void ssd1309_init (uint32_t dc, uint32_t cs, uint32_t rst) 
 {
 
 	// Config HAL
-	ssd1309_pin_dc = dc; 
-	ssd1309_pin_cs = cs; 
-	ssd1309_pin_rst = rst; 
-	ssd1309_spi = spi;  
+	ssd1309_pin_dc = OLED_DC_IO; 
+	ssd1309_pin_cs = OLED_CS_IO; 
+	ssd1309_pin_rst = OLED_RST_IO; 
 
 	ssd1309_reset (); 
 	ssd1309_write_command (0xFD); 
@@ -64,7 +66,7 @@ void ssd1309_init (uint32_t spi, uint8_t dc, uint8_t cs, uint8_t rst)
  **************************************************************************************/
 void ssd1309_set_line (uint8_t line) 
 {
-	ssd1309_write_command(SSD1309_SET_LINE | line);		
+		ssd1309_write_command(SSD1309_SET_LINE | line);		
 }
 
 /***********************************************************************************************************************************************************//**
@@ -139,7 +141,7 @@ void ssd1309_write_data (uint8_t data)
 
 	hal_gpio_write(ssd1309_pin_dc, 1); 
 	hal_gpio_write(ssd1309_pin_cs, 0); 
-	hal_spi_transfer (ssd1309_spi, &data, 1, NULL, 0, 0);  
+	hal_spi_transfer(HAL_SPI, &data, 1, NULL, 0);  
 	hal_gpio_write(ssd1309_pin_cs, 1);  
 
 }
@@ -153,7 +155,7 @@ void ssd1309_write_command (uint8_t command)
 
 	hal_gpio_write(ssd1309_pin_dc, 0); 
 	hal_gpio_write(ssd1309_pin_cs, 0);
-	hal_spi_transfer (ssd1309_spi, &command, 1, NULL, 0, 0); 
+	hal_spi_transfer(HAL_SPI, &command, 1, NULL, 0); 
 	hal_gpio_write(ssd1309_pin_cs, 1); 
 }
 
@@ -164,9 +166,9 @@ void ssd1309_write_command (uint8_t command)
 void ssd1309_reset (void)
 {	
 	hal_gpio_write(ssd1309_pin_rst, 0);
-	hal_delay_ms (500);
+	hal_delay_ms (100);
 	hal_gpio_write(ssd1309_pin_rst, 1);
-	hal_delay_ms (500);
+	hal_delay_ms (100);
 }
 
 
